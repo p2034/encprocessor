@@ -14,14 +14,14 @@ void iefile::open(std::string fileName) {
 
   file.open(fileName); {
     if (!file.is_open())
-      throw error::CanNotOpenFile(fileName);
+      throw nc_error::nc_CanNotOpenFile(fileName);
     
     int r = this->idata_.open(&file);
 
     if (r == -1)
-      throw error::FileIsAlreadyOpened(fileName);
+      throw nc_error::nc_FileIsAlreadyOpened(fileName);
     else if (r == -2)
-      throw error::FileIsBroken(fileName);
+      throw nc_error::nc_FileIsBroken(fileName);
 
   } file.close();
 }
@@ -32,7 +32,7 @@ int iefile::decrypt(uint8_t* key, uint16_t keySize, uint8_t** data, uint32_t& da
   int r = this->idata_.decrypt(key, keySize, data, dataSize);
 
   if (r == -1)
-    throw error::FileIsNotOpened();
+    throw nc_error::nc_FileIsNotOpened();
 
   return r;
 }

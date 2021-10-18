@@ -16,10 +16,10 @@ void oefile::save(const uint8_t* key, uint16_t keySize, const uint8_t* data, uin
 
   file.open(fileName); {
     if (!file.is_open())
-      throw error::CanNotOpenFile(fileName);
+      throw nc_error::nc_CanNotOpenFile(fileName);
 
     if (this->odata_.save(key, keySize, data, dataSize, &file) == -1)
-      throw error::Undefined("Something changed in crypto.\n");
+      throw nc_error::nc_Undefined("Something changed in crypto.\n");
 
   } file.close();
 }

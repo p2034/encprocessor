@@ -7,25 +7,25 @@
 
 
 
-namespace error {
-  Error::Error(std::string name) : name_(name) {}
+namespace nc_error {
+  nc_Error::nc_Error(std::string name) : name_(name) {}
 
-  std::string Error::line() {
+  std::string nc_Error::line() {
     return name_;
   }
   
-  CanNotOpenFile::CanNotOpenFile(std::string fileName) :
-    Error("Can't open file '" + fileName + "'.\n") {}
+  nc_CanNotOpenFile::nc_CanNotOpenFile(std::string fileName) :
+    nc_Error("Can't open file '" + fileName + "'.\n") {}
 
-  FileIsAlreadyOpened::FileIsAlreadyOpened(std::string fileName) :
-    Error("File '" + fileName + "' is already opened.\n") {}
+  nc_FileIsAlreadyOpened::nc_FileIsAlreadyOpened(std::string fileName) :
+    nc_Error("File '" + fileName + "' is already opened.\n") {}
 
-  FileIsNotOpened::FileIsNotOpened() :
-     Error("File is not opened.\n") {}
+  nc_FileIsNotOpened::nc_FileIsNotOpened() :
+    nc_Error("File is not opened.\n") {}
 
-  FileIsBroken::FileIsBroken(std::string fileName) :
-     Error("File " + fileName + " is broken.\n") {}
+  nc_FileIsBroken::nc_FileIsBroken(std::string fileName) :
+    nc_Error("File " + fileName + " is broken.\n") {}
 
-  Undefined::Undefined(std::string line) :
-    Error(line) {}
+  nc_Undefined::nc_Undefined(std::string line) :
+    nc_Error(line) {}
 }

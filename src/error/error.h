@@ -10,39 +10,39 @@
 
 
 
-namespace error {
-  class Error {
+namespace nc_error {
+  class nc_Error {
   private:
     std::string name_;
   public:
-    Error(std::string name);
+    nc_Error(std::string name);
 
     std::string line();
   };
 
-  class CanNotOpenFile : public Error {
+  class nc_CanNotOpenFile : public nc_Error {
   public:
-    CanNotOpenFile(std::string fileName);
+    nc_CanNotOpenFile(std::string fileName);
   };
 
-  class FileIsAlreadyOpened : public Error {
+  class nc_FileIsAlreadyOpened : public nc_Error {
   public:
-    FileIsAlreadyOpened(std::string fileName);
+    nc_FileIsAlreadyOpened(std::string fileName);
   };
 
-  class FileIsNotOpened : public Error {
+  class nc_FileIsNotOpened : public nc_Error {
   public:
-    FileIsNotOpened();
+    nc_FileIsNotOpened();
   };
 
-  class FileIsBroken : public Error {
+  class nc_FileIsBroken : public nc_Error {
   public:
-    FileIsBroken(std::string fileName);
+    nc_FileIsBroken(std::string fileName);
   };
 
-  class Undefined : public Error {
+  class nc_Undefined : public nc_Error {
   public:
-    Undefined(std::string line);
+    nc_Undefined(std::string line);
   };
 }
 

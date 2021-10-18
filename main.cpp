@@ -30,7 +30,7 @@ int main() {
     letterByLetterOutput(&str, 200);
     std::cout << std::endl;
   
-  } catch(error::Error& err) {
+  } catch(nc_error::nc_Error& err) {
     std::cout << err.line() << "\n";
   } catch(const char* error) {
     std::cout << error << "\n";
