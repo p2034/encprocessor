@@ -19,15 +19,17 @@ Encryption processor - two classes iedata and oedata for encrypt and decrypt dat
 
 <h2>Usage:</h2>
 
+<p>You can find simple tests in tests/</p>
+
 <h3>Stream:</h3>
 
-You can encrypt data with class oedata and function save()
-To decryption you must use class iedata and functions open(), decrypt(), close() consistently
+<p>You can encrypt data with class oedata and function save()</p>
+<p>To decryption you must use class iedata and functions open(), decrypt(), close() consistently</p>
 
 <h3>Files:</h3>
 
-You can encrypt data with class oefile and function save()
-To decryption you must use class iefile and functions open(), decrypt(), close() consistently
+<p>You can encrypt file with class oefile and function save()</p>
+<p>To decryption you must use class iefile and functions open(), decrypt(), close() consistently</p>
 
 <h2>Compile:</h2>
 
