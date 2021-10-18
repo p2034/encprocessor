@@ -4,6 +4,7 @@ Encryption processor - two classes iedata and oedata for encrypt and decrypt dat
 
 <h2>Data Format:</h2>
 
+```
           < HEADER >                   < ENCRYPTED DATA >                  < TAIL >
           signature +                    encrypted data            hash of unencrypted data +
       encrypted data length                                         unencrypted data length
@@ -14,6 +15,7 @@ Encryption processor - two classes iedata and oedata for encrypt and decrypt dat
           12 bytes                                                16 bytes (after encryption)
 
                                                                     crc32
+```
 
 <h2>Usage:</h2>
 
