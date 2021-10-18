@@ -5,6 +5,8 @@
 
 #include <string>
 #include <sstream>
+#include <stdlib.h> /* srand, rand */
+#include <time.h> /* time */
 
 #include "../src/error/error.h"
 #include "../src/core/oedata.h"
@@ -71,16 +73,18 @@ void globalTests() {
   uint8_t* key;
   uint32_t keySize;
 
-  for (int j = 1; j < 100; j++) {
+  srand(time(NULL));
+
+  for (int j = 1; j < 1000; j++) {
     keySize = 32;
     key = (uint8_t*) new uint8_t[keySize];
     for (int i = 0; i < keySize; i++)
-      key[i] = 9;
+      key[i] = rand() % 128;
 
     dataSize = j;
     data = (uint8_t*) new uint8_t[dataSize];
     for (int i = 0; i < dataSize; i++)
-      data[i] = 121;
+      data[i] = rand() % 128;
 
     test_type2(key, keySize, data, dataSize);
 
