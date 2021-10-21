@@ -17,6 +17,6 @@ add_executable(test.out ../tests/main.cpp ../tests/tests.cpp ../src/encprocessor
                                                              ../src/encprocessor/core/iefile.cpp 
                                                              ../src/encprocessor/core/oefile.cpp)
 
-target_include_directories(test.out PUBLIC ../include/encprocessor)
+target_include_directories(test.out PUBLIC ../src/encprocessor)
 
 target_link_libraries(test.out)
