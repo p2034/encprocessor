@@ -7,10 +7,10 @@
 #include <sstream>
 #include <stdlib.h> /* srand, rand */
 #include <time.h> /* time */
+#include <stdexcept>
 
-#include "../src/error/error.h"
-#include "../src/core/oedata.h"
-#include "../src/core/iedata.h"
+#include "core/oedata.h"
+#include "core/iedata.h"
 
 #include "tests.h"
 
@@ -24,7 +24,7 @@ void test_type1(uint8_t* key, uint32_t keySize, uint8_t* data, uint32_t dataSize
   data_o.save(key, keySize, data, dataSize, &sstr);
 
   if (sstr.str() != check)
-    throw "Wrong data after encryption";
+    throw std::logic_error("Wrong data after encryption");
 
   // decryption
   iedata data_i;
@@ -34,10 +34,10 @@ void test_type1(uint8_t* key, uint32_t keySize, uint8_t* data, uint32_t dataSize
     int a = data_i.decrypt(key, keySize, &data_, dataSize);
 
     if (a == 0)
-      throw "Wrong key";
+      throw std::logic_error("Wrong key");
     else
       if (sstr.str() != std::string(reinterpret_cast<char*>(data), dataSize))
-        throw "Wrong data after decryption";
+        throw std::logic_error("Wrong data after decryption");
   } data_i.close();
 }
 
@@ -58,10 +58,10 @@ void test_type2(uint8_t* key, uint32_t keySize, uint8_t* data, uint32_t dataSize
     int a = data_i.decrypt(key, keySize, &data_, dataSize_);
 
     if (a == 0)
-      throw "Wrong key";
+      throw std::logic_error("Wrong key");
     else
       if (std::string(reinterpret_cast<char*>(data_), dataSize_) != std::string(reinterpret_cast<char*>(data), dataSize))
-        throw "Wrong data after decryption";
+        throw std::logic_error("Wrong data after decryption");
   } data_i.close();
 }
 

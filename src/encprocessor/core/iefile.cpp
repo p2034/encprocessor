@@ -4,8 +4,9 @@
 
 
 #include <fstream>
+#include <stdexcept>
 
-#include "iefile.h"
+#include "core/iefile.h"
 
 
 
@@ -14,14 +15,14 @@ void iefile::open(std::string fileName) {
 
   file.open(fileName); {
     if (!file.is_open())
-      throw nc_error::nc_CanNotOpenFile(fileName);
+      throw std::invalid_argument("Can not open file '" + fileName + "'");
     
     int r = this->idata_.open(&file);
 
     if (r == -1)
-      throw nc_error::nc_FileIsAlreadyOpened(fileName);
+      throw std::logic_error("File '" + fileName + "' is already opened");
     else if (r == -2)
-      throw nc_error::nc_FileIsBroken(fileName);
+      throw std::invalid_argument("File '" + fileName + "' is broken");
 
   } file.close();
 }
@@ -32,7 +33,7 @@ int iefile::decrypt(uint8_t* key, uint16_t keySize, uint8_t** data, uint32_t& da
   int r = this->idata_.decrypt(key, keySize, data, dataSize);
 
   if (r == -1)
-    throw nc_error::nc_FileIsNotOpened();
+    throw std::logic_error("File is not opened");
 
   return r;
 }

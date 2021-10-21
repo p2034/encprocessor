@@ -4,8 +4,9 @@
 
 
 #include <fstream>
+#include <stdexcept>
 
-#include "oefile.h"
+#include "core/oefile.h"
 
 
 
@@ -16,10 +17,10 @@ void oefile::save(const uint8_t* key, uint16_t keySize, const uint8_t* data, uin
 
   file.open(fileName); {
     if (!file.is_open())
-      throw nc_error::nc_CanNotOpenFile(fileName);
+      throw std::invalid_argument("Can not open file '" + fileName + "'");
 
     if (this->odata_.save(key, keySize, data, dataSize, &file) == -1)
-      throw nc_error::nc_Undefined("Something changed in crypto.\n");
+      throw std::invalid_argument("Undefined error: Something changed in crypto");
 
   } file.close();
 }

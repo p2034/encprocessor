@@ -6,9 +6,9 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
+#include <stdexcept>
 
-#include "tests/tests.h"
-#include "src/error/error.h"
+#include "tests.h"
 
 
 
@@ -30,12 +30,8 @@ int main() {
     letterByLetterOutput(&str, 200);
     std::cout << std::endl;
   
-  } catch(nc_error::nc_Error& err) {
-    std::cout << err.line() << "\n";
-  } catch(const char* error) {
-    std::cout << error << "\n";
-  } catch(std::string error) {
-    std::cout << error << "\n";
+  } catch(const std::exception& excpt) {
+    std::cout << excpt.what() << "\n";
   }
 
 	return 0;

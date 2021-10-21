@@ -1,4 +1,4 @@
-#include "aes.h"
+#include "crypto/aes.h"
 
 
 
@@ -18,7 +18,7 @@ AES::AES(int keyLen) {
     this->Nr = 14;
     break;
   default:
-    throw "Incorrect key length";
+    throw std::invalid_argument("Incorrect key length");
   }
 
   blockBytesLen = 4 * this->Nb * sizeof(unsigned char);

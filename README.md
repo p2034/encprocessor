@@ -20,6 +20,9 @@ Encryption processor - two classes iedata and oedata for encrypt and decrypt dat
 <h2>Usage:</h2>
 
 <p>You can find simple tests in tests/</p>
+<p>If you want to use it in your project:</p>
+1. Copy include (/include) in your includes
+2. Copy cpp files (/src) in your src folder and link them in CMakeLists.txt
 
 <h3>Stream:</h3>
 
