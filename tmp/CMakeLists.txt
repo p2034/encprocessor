@@ -11,11 +11,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 project(ENCPROCESSOR)
 
 # add your .cpp files here
-add_executable(test.out ../tests/main.cpp ../tests/tests.cpp ../src/encprocessor/crypto/aes.cpp 
-                                                             ../src/encprocessor/core/iedata.cpp 
-                                                             ../src/encprocessor/core/oedata.cpp 
-                                                             ../src/encprocessor/core/iefile.cpp 
-                                                             ../src/encprocessor/core/oefile.cpp)
+add_executable(test.out ../tests/main.cpp ../tests/tests.cpp ../src/encprocessor/crypto/aes.cpp
+                                                             ../src/encprocessor/core/encdata.cpp
+                                                             ../src/encprocessor/core/encfile.cpp)
 
 target_include_directories(test.out PUBLIC ../src/encprocessor)
 

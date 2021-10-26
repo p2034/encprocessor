@@ -8,12 +8,10 @@
 
 
 
-void test_type1();
-
-void test_type2();
+void simpleTest(uint8_t* key, uint16_t keySize, uint8_t* data, uint32_t dataSize, std::string check);
 
 void globalTests();
 
-
+void fileTest();
 
 #endif

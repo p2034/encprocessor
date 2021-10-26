@@ -2,33 +2,32 @@
 // https://github.com/p2034
 
 
-#ifndef EC_ENCDATA_H
-#define EC_ENCDATA_H
+
+/**
+ * @file
+ * @brief class encdata declaration
+ */
 
 
 
-#define EC_SIGNATURE_SIZE 8
-#define EC_SIGNATURE "NCRYPTED"
-#define EC_DATALENGTH_SIZE 4
-#define EC_HASH_SIZE 4
-#define EC_ENCRYPTED_TAIL_SIZE 16
+#ifndef ENC_ENCDATA_H
+#define ENC_ENCDATA_H
 
 
 
 /**
- * Data Format:
- *           < HEADER >                   < ENCRYPTED DATA >                  < TAIL >
- *           signature +                    encrypted data            hash of unencrypted data +
- *       encrypted data length                                         unencrypted data length
- *          not encrypted                        AES                            AES
- * 
- *   signature  | enc.d. length  |         encrypted data          |    hash    | unenc.d. length
- *    8 bytes   |  4 bytes       |  "encrypted data length" bytes  |  4 bytes   |  4 bytes
- *            12 bytes                                               16 bytes (after encryption)
+ * @brief encrypted data (std::iostream) processor
  *
- *                                                                     crc32
- **/
- 
+ * 
+ */
+class encdata {
+public:
+  uint32_t decrypt(std::istream* istr, const uint8_t* key, uint16_t keySize, uint8_t** data);
+
+  void encrypt(std::ostream* ostr, const uint8_t* key, uint16_t keySize,
+                                   const uint8_t* data, uint32_t dataSize);
+};
+
 
 
 #endif

@@ -9,6 +9,7 @@
 #include <stdexcept>
 
 #include "tests.h"
+#include "core/encfile.h"
 
 
 
@@ -23,15 +24,16 @@ void letterByLetterOutput(std::string* str, int msec) {
 
 int main() {
   try {
+    // here tests
 
-    globalTests();
-
+    // ...
+    
     std::string str = "It's ok!)";
     letterByLetterOutput(&str, 200);
     std::cout << std::endl;
   
-  } catch(const std::exception& excpt) {
-    std::cout << excpt.what() << "\n";
+  } catch(const std::exception& e) {
+    std::cout << e.what() << "\n";
   }
 
 	return 0;
