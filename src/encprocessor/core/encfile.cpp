@@ -20,9 +20,19 @@
 
 
 
-uint32_t encfile::decrypt(std::string fileName, const uint8_t* key, uint16_t keySize, uint8_t** data) {
+/**
+ * @brief init chipher
+ */
+encfile::encfile(uint16_t keySize) {
+  datastream_ = new encdata(keySize);
+}
+
+
+
+/**
+ */
+uint32_t encfile::decrypt(std::string fileName, const uint8_t* key, uint8_t** data) {
   std::ifstream file; ///< std::istream for encdata::decrypt()
-  encdata datastream; ///< object for decryption
 
   uint32_t dataSize; ///< decrypted data size
 
@@ -31,7 +41,7 @@ uint32_t encfile::decrypt(std::string fileName, const uint8_t* key, uint16_t key
     if (!file.is_open())
       throw std::invalid_argument("Can not open file '" + fileName + "'");
 
-    dataSize = datastream.decrypt(&file, key, keySize, data);
+    dataSize = datastream_->decrypt(&file, key, data);
   } file.close();
 
   return dataSize; 
@@ -39,16 +49,24 @@ uint32_t encfile::decrypt(std::string fileName, const uint8_t* key, uint16_t key
 
 
 
-void encfile::encrypt(std::string fileName, const uint8_t* key, uint16_t keySize,
-                                            const uint8_t* data, uint32_t dataSize) {
+void encfile::encrypt(std::string fileName, const uint8_t* key,
+                      const uint8_t* data, uint32_t dataSize) {
   std::ofstream file; ///< std::ostream for decdata::decrypt()
-  encdata datastream; ///< object for encryption
 
   // write data in file
   file.open(fileName); {
     if (!file.is_open())
       throw std::invalid_argument("Can not open file '" + fileName + "'");
 
-    datastream.encrypt(&file, key, keySize, data, dataSize);
+    datastream_->encrypt(&file, key, data, dataSize);
   } file.close();
+}
+
+
+
+/**
+ */
+encfile::~encfile() {
+  if (datastream_ != nullptr)
+    delete datastream_;
 }

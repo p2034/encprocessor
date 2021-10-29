@@ -29,13 +29,13 @@
 void simpleTest(uint8_t* key, uint32_t keySize, uint8_t* data, uint32_t dataSize) {
   // encryption
   std::stringstream sstr;
-  encdata datastream;
-  datastream.encrypt(&sstr, key, keySize, data, dataSize);
+  encdata datastream(keySize);
+  datastream.encrypt(&sstr, key, data, dataSize);
 
   uint8_t* str;
   uint32_t strSize;
 
-  strSize = datastream.decrypt(&sstr, key, keySize, &str);
+  strSize = datastream.decrypt(&sstr, key, &str);
   if (strSize == 0) {
     throw std::runtime_error("Wrong key");
   } else if (strSize != dataSize) {
@@ -85,7 +85,6 @@ void globalTests() {
 
 void fileTest() {
   srand(time(NULL));
-  encfile file;
 
   uint8_t* data;
   uint32_t dataSize;
@@ -93,6 +92,9 @@ void fileTest() {
   uint32_t keySize;
 
   keySize = 32;
+
+  encfile file(keySize);
+
   key = (uint8_t*) new uint8_t[keySize];
   for (int i = 0; i < keySize; i++)
     key[i] = rand() % 128;
@@ -111,9 +113,9 @@ void fileTest() {
   uint8_t* data_;
   uint32_t dataSize_;
 
-  file.encrypt("database.enc", key, keySize, data, dataSize);
+  file.encrypt("database.enc", key, data, dataSize);
 
-  dataSize_ = file.decrypt("database.enc", key, keySize, &data_);
+  dataSize_ = file.decrypt("database.enc", key, &data_);
 
   std::cout << "Data size: " << dataSize_ << std::endl;
 

@@ -17,16 +17,32 @@
 
 
 
+#include "core/encdata.h"
+
+
+
 /**
+ * @class encfile
  * @brief encrypted data (std::iostream) processor
- *
+ * 
+ * Just encdata class encapsulation. Encryptor and decryptor for files.
  **/
 class encfile {
+private:
+  encdata* datastream_ = nullptr; ///< chipher
 public:
-  uint32_t decrypt(std::string fileName, const uint8_t* key, uint16_t keySize, uint8_t** data);
+  // init chipher
+  encfile(uint16_t keySize);
 
-  void encrypt(std::string fileName, const uint8_t* key, uint16_t keySize,
-                                     const uint8_t* data, uint32_t dataSize);
+  // decrypt data from file and get it in uint8_t*'s array
+  uint32_t decrypt(std::string fileName, const uint8_t* key, uint8_t** data);
+
+  // encrypt data and set it in file
+  void encrypt(std::string fileName, const uint8_t* key,
+               const uint8_t* data, uint32_t dataSize);
+
+  // delete chipher
+  ~encfile();
 };
 
 

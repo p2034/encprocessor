@@ -26,7 +26,7 @@ int main() {
   try {
     // here tests
 
-    // ...
+    fileTest();
     
     std::string str = "It's ok!)";
     letterByLetterOutput(&str, 200);

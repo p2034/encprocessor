@@ -24,11 +24,23 @@
 
 
 /**
- * @brief get data from std::istream and decrypt it
+ * @brief init key size for encryptor and decryptor
+ * 
+ * @param [in] keySize key size in bytes (16, 24, 32)
+ * 
+ * Init AES object which implements in crypto/aes.cpp and crypto/aes.h.
+ */
+encdata::encdata(uint16_t keySize) {
+  aes_ = new AES(keySize * 8);
+}
+
+
+
+/**
+ * @brief gets data from std::istream and decrypts it
  *
  * @param [in] istr input stream
  * @param [in] key key for AES encryption must be 128, 192 or 256 bits
- * @param [in] keySize key size in bytes (16, 24, 32)
  * @param [out] data pointer to free space to return decrypted data
  * 
  * @throw std::invalid_argument if signature is wrong, or if key is of wrong size
@@ -41,9 +53,7 @@
  * 
  * Data format is described in encformat.h.
  */
-uint32_t encdata::decrypt(std::istream* istr, const uint8_t* key, uint16_t keySize, uint8_t** data) {
-  AES aes(keySize * 8);
-  
+uint32_t encdata::decrypt(std::istream* istr, const uint8_t* key, uint8_t** data) {
   uint32_t ecdataSize = 0; ///< length of encrypted data
   // check signature and get encrypted data length from header
   {
@@ -67,7 +77,7 @@ uint32_t encdata::decrypt(std::istream* istr, const uint8_t* key, uint16_t keySi
     uint8_t* ecdata; ///< pointer for encrypted data
     ecdata = (uint8_t*) new uint8_t[ecdataSize];
     istr->read(reinterpret_cast<char*>(ecdata), ecdataSize);
-    dcdata = aes.DecryptECB(ecdata, ecdataSize, const_cast<uint8_t*>(key));
+    dcdata = aes_->DecryptECB(ecdata, ecdataSize, const_cast<uint8_t*>(key));
 
     delete[] ecdata;
   }
@@ -81,7 +91,7 @@ uint32_t encdata::decrypt(std::istream* istr, const uint8_t* key, uint16_t keySi
     uint8_t* ectail; ///< pointer for encrypted tail
     ectail = (uint8_t*) new uint8_t[ENC_ENCRYPTED_TAIL_SIZE];
     istr->read(reinterpret_cast<char*>(ectail), ENC_ENCRYPTED_TAIL_SIZE);
-    dctail = aes.DecryptECB(ectail, ENC_ENCRYPTED_TAIL_SIZE, const_cast<uint8_t*>(key));
+    dctail = aes_->DecryptECB(ectail, ENC_ENCRYPTED_TAIL_SIZE, const_cast<uint8_t*>(key));
     
     // get hash and decrypted data length from tail
     memcpy(&hashFromTail, dctail, ENC_HASH_SIZE);
@@ -109,11 +119,10 @@ uint32_t encdata::decrypt(std::istream* istr, const uint8_t* key, uint16_t keySi
 
 
 /**
- * @brief decrypt and set data in std::ostream
+ * @brief encrypts and sets encrypted data in std::ostream
  *
  * @param [out] ostr output stream
  * @param [in] key key for AES encryption must be 128, 192 or 256 bits
- * @param [in] keySize key size in bytes (16, 24, 32)
  * @param [in] data data which we must encrypt and set in std::ostream
  * @param [in] dataSize data which we must encrypt and set in std::ostream
  * 
@@ -122,10 +131,8 @@ uint32_t encdata::decrypt(std::istream* istr, const uint8_t* key, uint16_t keySi
  *
  * Encrypt data and write it in specific data format described in encformat.h.
  */
-void encdata::encrypt(std::ostream* ostr, const uint8_t* key, uint16_t keySize, 
-                                         const uint8_t* data, uint32_t dataSize) {
-  AES aes(keySize * 8);
-
+void encdata::encrypt(std::ostream* ostr, const uint8_t* key, 
+                      const uint8_t* data, uint32_t dataSize) {
   uint8_t* ectail; ///< encrypted tail
   // creating encrypted tail
   {
@@ -140,7 +147,7 @@ void encdata::encrypt(std::ostream* ostr, const uint8_t* key, uint16_t keySize,
 
     // encrypt tail length
     uint32_t ectailLength = 0;
-    ectail = aes.EncryptECB(reinterpret_cast<uint8_t*>(tail), ENC_HASH_SIZE + ENC_DATALENGTH_SIZE,
+    ectail = aes_->EncryptECB(reinterpret_cast<uint8_t*>(tail), ENC_HASH_SIZE + ENC_DATALENGTH_SIZE,
                             const_cast<uint8_t*>(key), ectailLength);
     // check changed something in encryption or not
     if (ectailLength != ENC_ENCRYPTED_TAIL_SIZE)
@@ -155,7 +162,7 @@ void encdata::encrypt(std::ostream* ostr, const uint8_t* key, uint16_t keySize,
   uint8_t* header; ///< header with signature and encrypted data length
   // encrypt data and create header
   {
-    ecdata = aes.EncryptECB(const_cast<uint8_t*>(data), dataSize, const_cast<uint8_t*>(key),
+    ecdata = aes_->EncryptECB(const_cast<uint8_t*>(data), dataSize, const_cast<uint8_t*>(key),
                             ecdataSize);
     
     header = (uint8_t *) new uint8_t[ENC_SIGNATURE_SIZE + ENC_DATALENGTH_SIZE];
@@ -174,4 +181,11 @@ void encdata::encrypt(std::ostream* ostr, const uint8_t* key, uint16_t keySize,
   delete[] ectail;
   delete[] ecdata;
   delete[] header;
+}
+
+
+
+encdata::~encdata() {
+  if (aes_ != nullptr)
+    delete aes_;
 }
