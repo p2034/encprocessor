@@ -22,6 +22,9 @@ Encryption processor - two classes iedata and oedata for encrypt and decrypt dat
 <p>You can find simple tests in tests/</p>
 <p>If you want to use it in your project: Copy files (/src) in your src folder and link them in CMakeLists.txt</p>
 
+<h3>Examples:</h3>
+<p>All tests and ewxamples are in tests/encprocessor_encprocessors.cpp file.</p>
+
 <h3>Stream:</h3>
 
 <p>You can encrypt data with class oedata and function save()</p>

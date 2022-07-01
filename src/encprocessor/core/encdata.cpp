@@ -124,7 +124,7 @@ uint32_t encdata::decrypt(std::istream* istr, const uint8_t* key, uint8_t** data
  * @param [out] ostr output stream
  * @param [in] key key for AES encryption must be 128, 192 or 256 bits
  * @param [in] data data which we must encrypt and set in std::ostream
- * @param [in] dataSize data which we must encrypt and set in std::ostream
+ * @param [in] dataSize size of the data
  * 
  * @throw std::invalid_argument if key is of wrong size
  * @throw std::runtime_error if something is changed in crypto and encrypted tail size != EC_ENCRYPTED_TAIL_SIZE

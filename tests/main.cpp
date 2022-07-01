@@ -8,8 +8,7 @@
 #include <thread>
 #include <stdexcept>
 
-#include "tests.h"
-#include "core/encfile.h"
+#include "encprocessor_tests.cpp"
 
 
 

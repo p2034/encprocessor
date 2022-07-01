@@ -20,8 +20,6 @@
 #include "core/encdata.h"
 #include "core/encfile.h"
 
-#include "tests.h"
-
 
 
 // stream
